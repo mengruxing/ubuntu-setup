@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Eclipse
+GenericName=Eclipse IDE
+Comment=An amazing open source community of IDE
+Exec=/opt/eclipse/eclipse
+Icon=eclipse
+Terminal=false
+Type=Application
+Categories=Application;Development;
