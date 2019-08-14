@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Matlab R2015b
-GenericName=Matlab IDE
-Comment=The Language of Technical Computing
-Exec=/opt/matlab/bin/glnxa64/MATLAB -desktop
-Icon=matlab
-Terminal=false
-Type=Application
-Categories=Application;Development;

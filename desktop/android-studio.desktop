@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Android Studio
-GenericName=Android Studio IDE
-Comment=The Official IDE for Android
-Exec=/opt/android-studio/bin/studio.sh
-Icon=android-studio
-Terminal=false
-Type=Application
-Categories=Application;Development;
