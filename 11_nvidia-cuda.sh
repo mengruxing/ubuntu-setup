@@ -2,22 +2,26 @@
 
 cd `dirname $0`
 
-if [[ "${1}" == *no*opengl* ]]; then
-  opts='--no-opengl-libs'
+if [ -f tmp/config.sh ]; then
+  source tmp/config.sh
+else
+  echo "missing file: tmp/config.sh, please edit it and retry.."
+  exit 1
 fi
 
 sudo service lightdm stop
 sudo apt purge -y nvidia-384
-sudo apt install -y nvidia-prime nvidia-settings
+sudo apt-get install -y nvidia-prime nvidia-settings
 
 sudo tee /etc/modprobe.d/blacklist-nouveau.conf << EOF
 blacklist nouveau
 options nouveau modeset=0
 EOF
 sudo update-initramfs -u
-sudo ./files/cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-9.2 --verbose ${opts}
+# sudo ./files/cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-9.2 --verbose ${nvidia_cuda_opts}
+sudo ./files/cuda_10.1.243_418.87.00_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-10.1 ${nvidia_cuda_opts}
 cd /opt
-sudo ln -sf cuda-9.2 cuda
+sudo ln -sf cuda-10.1 cuda
 sudo ln -sf /opt/cuda/libnvvp/icon.xpm /usr/share/pixmaps/nvvp.xpm
 sudo ln -sf /opt/cuda/libnsight/icon.xpm /usr/share/pixmaps/nsight.xpm
 sudo ln -s /usr/share/doc/NVIDIA_GLX-1.0/nvidia-settings.png /usr/share/pixmaps/nvidia-settings.png
@@ -64,4 +68,4 @@ Exec=/usr/bin/nvidia-settings
 Categories=Settings;HardwareSettings;
 EOF
 
-cat /var/log/nvidia-installer.log && sleep 3 && reboot
+echo 'operation completed! system needs to reboot..'

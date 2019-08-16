@@ -2,22 +2,17 @@
 
 cd `dirname $0`
 
-typeset -l frp_host_name
-frp_server_addr='anview.tech'
-frp_server_port=7000
-frp_token='anview.frp'
-frp_host_name=${HOSTNAME//-/_}
-frp_remote_port=${1:-7003}
+if [ -f tmp/config.sh ]; then
+  source tmp/config.sh
+else
+  echo "missing file: tmp/config.sh, please edit it and retry.."
+  exit 1
+fi
 
-RECORD_URL='https://iprecorder.mrxing.org/api/commit'
-RECORD_HOST_NAME=`echo ${HOSTNAME//-/_} | sed -e "s/\b\(.\)/\u\1/g"`
-RECORD_INTERFACE=${2:-eno1}
-
-
-sudo apt install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev ffmpeg chromium-browser gparted
+sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev ffmpeg chromium-browser gparted
 sudo apt autoremove --purge -y deja-dup webbrowser-app *firefox*
 sudo rm -f /usr/share/applications/shutdown.desktop /usr/share/applications/reboot.desktop /usr/share/applications/logout.desktop /etc/skel/examples.desktop
-sudo apt install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
+sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
 print(' '.join(LanguageSelectorBase('/usr/share/language-selector/').getMissingLangPacks()))"`
 
 # TODO: 从网上自动下载
@@ -25,13 +20,17 @@ sudo cp ./files/*_guc_ver*.bin /lib/firmware/i915/
 
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
-crontab << EOF
-* * * * * /usr/bin/curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(/sbin/ifconfig ${RECORD_INTERFACE} | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n 1)" ${RECORD_URL}
+if [ -n "${RECORD_HOST_NAME}" ]; then crontab << EOF
+* * * * * /usr/bin/curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(/sbin/ifconfig \`route -n | awk '\$3=="0.0.0.0" && \$4=="UG" {print \$8}'\` | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n 1)" ${RECORD_URL}
 EOF
+fi
 
 sudo tee /etc/sysctl.d/10-vm-swappiness.conf << EOF
 vm.swappiness = 10
 EOF
+
+sed -i 's/^\s*\(HISTFILESIZE=\).*$/\110000/g;' /etc/skel/.bashrc
+sed -i 's/^\(.*alias\s+ls.*--color=auto\)\(.*\)$/\1 --group-directories-first\2/g' /etc/skel/.bashrc
 
 sudo sed -i 's/\(GRUB_TIMEOUT=\)[0-9]\+/\10/' /etc/default/grub
 sudo sed -i 's/[1-9][0-9]*/0/g' /usr/share/plymouth/themes/default.grub
@@ -40,13 +39,14 @@ sudo update-grub
 
 sudo chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/91-release-upgrade
 
-sudo cp ./files/frpc /usr/local/bin/frpc
-sudo chmod +x /usr/local/bin/frpc
-sudo mkdir /etc/frp /var/log/frp
-sudo chmod 775 /var/log/frp
-sudo chgrp nogroup /var/log/frp
+if [ -n "${frp_remote_port}" ] && [[ ! "${frp_remote_port}" == "no" ]]; then
+  sudo cp ./files/frpc /usr/local/bin/frpc
+  sudo chmod +x /usr/local/bin/frpc
+  sudo mkdir /etc/frp /var/log/frp
+  sudo chmod 775 /var/log/frp
+  sudo chgrp nogroup /var/log/frp
 
-sudo tee /etc/frp/frpc.ini << EOF
+  sudo tee /etc/frp/frpc.ini << EOF
 [common]
 server_addr = ${frp_server_addr}
 server_port = ${frp_server_port}
@@ -60,7 +60,7 @@ local_port = 22
 remote_port = ${frp_remote_port}
 EOF
 
-sudo tee /lib/systemd/system/frpc.service << EOF
+  sudo tee /lib/systemd/system/frpc.service << EOF
 [Unit]
 Description=Frp Client Service
 After=network.target
@@ -77,7 +77,7 @@ ExecReload=/usr/local/bin/frpc reload -c /etc/frp/frpc.ini
 WantedBy=multi-user.target
 EOF
 
-sudo tee /lib/systemd/system/frpc@.service << EOF
+  sudo tee /lib/systemd/system/frpc@.service << EOF
 [Unit]
 Description=Frp Client Service
 After=network.target
@@ -94,9 +94,9 @@ ExecReload=/usr/local/bin/frpc reload -c /etc/frp/%i.ini
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl enable frpc
-sudo systemctl start frpc
-
+  sudo systemctl enable frpc
+  sudo systemctl start frpc
+fi
 
 sudo tee /usr/share/glib-2.0/schemas/99_ubuntu1604.gschema.override << EOF
 [com.canonical.unity-greeter]
