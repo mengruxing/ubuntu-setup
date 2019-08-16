@@ -7,9 +7,9 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$(. /etc/os-release;echo $ID$V
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker-stable.list
-sudo apt update
-sudo apt install -y docker-ce nvidia-container-toolkit
-sudo usermod -a -G docker $USER
+sudo apt-get update
+sudo apt-get install -y docker-ce nvidia-container-toolkit
+sudo usermod -a -G docker $(awk -F: '$3==1000 {print $1}' /etc/passwd)
 sudo systemctl restart docker
 
 sudo cp ./files/docker-compose /usr/local/bin/docker-compose

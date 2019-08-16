@@ -42,21 +42,11 @@ EOF
 
 sudo add-apt-repository -y ppa:webupd8team/terminix
 sudo apt-add-repository -y ppa:mc3man/older
-sudo apt update
-sudo apt install -y tilix atom code gedit gedit-common
+sudo apt-get update
+sudo apt-get install -y tilix atom code gedit gedit-common sogoupinyin
 
 cd /etc/profile.d && sudo ln -s vte-2.91.sh vte.sh
 cd -
-
-if [ -z "$(grep 'vte.sh' ~/.bashrc 2>/dev/null)" ]; then
-  tee -a ~/.bashrc << EOF
-
-if [ \$TILIX_ID ] || [ \$VTE_VERSION ]; then
-  . /etc/profile.d/vte.sh
-fi
-
-EOF
-fi
 
 if [ -z "$(grep 'vte.sh' /etc/skel/.bashrc 2>/dev/null)" ]; then
   sudo tee -a /etc/skel/.bashrc << EOF
