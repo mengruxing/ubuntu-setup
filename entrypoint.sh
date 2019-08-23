@@ -99,7 +99,7 @@ fi
 
 if [ ! -f tmp/step_1 ]; then
   echo 'execute step 2..'
-  ./01_setup.sh 2>tmp/step_1.error | tee tmp/step_1.log && touch tmp/step_1
+  ./01_setup.sh 2>&1 | tee tmp/step_1.log && touch tmp/step_1
   sudo reboot
 fi
 
