@@ -9,8 +9,8 @@ else
   exit 1
 fi
 
-sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev ffmpeg chromium-browser gparted
-sudo apt autoremove --purge -y deja-dup webbrowser-app *firefox*
+sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev bbswitch-dkms ffmpeg chromium-browser gparted
+sudo apt autoremove --purge -y deja-dup webbrowser-app account-plugin-flickr *firefox*
 sudo rm -f /usr/share/applications/shutdown.desktop /usr/share/applications/reboot.desktop /usr/share/applications/logout.desktop /etc/skel/examples.desktop
 sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
 print(' '.join(LanguageSelectorBase('/usr/share/language-selector/').getMissingLangPacks()))"`
@@ -20,8 +20,8 @@ sudo cp ./files/*_guc_ver*.bin /lib/firmware/i915/
 
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
-if [ -n "${RECORD_HOST_NAME}" ]; then crontab << EOF
-* * * * * /usr/bin/curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(/sbin/ifconfig \`route -n | awk '\$3=="0.0.0.0" && \$4=="UG" {print \$8}'\` | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n 1)" ${RECORD_URL}
+if [ -n "${RECORD_HOST_NAME}" ]; then crontab -u $(awk -F: '$3==1000 {print $1}' /etc/passwd) << EOF
+* * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(/sbin/ifconfig \`/sbin/route -n | awk '\$3=="0.0.0.0" && \$4=="UG" {print \$8}' | head -n 1\` | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n 1)" ${RECORD_URL}
 EOF
 fi
 
