@@ -63,7 +63,7 @@ EOF
           nvidia_cuda_opts=''
           ;;
         * )
-          nvidia_cuda_opts='--no-opengl-libs'
+          nvidia_cuda_opts='--no-opengl-files'
           ;;
       esac
       ;;
@@ -106,17 +106,12 @@ fi
 if [[ "${opt_nvidia_driver}" == "yes" ]]; then
   if [ ! -f tmp/nvidia_step_1 ]; then
     echo 'installing nvidia driver from source.. after than, system will be reboot.'
-    ./10_nvidia-install.sh 2>&1 | tee tmp/nvidia_step_1.log && touch tmp/nvidia_step_1
+    ./10_nvidia-driver.sh 2>&1 | tee tmp/nvidia_step_1.log && touch tmp/nvidia_step_1
     sudo reboot
   fi
   if [ ! -f tmp/nvidia_step_2 ]; then
     echo 'installing nvidia driver from source.. after than, system will be reboot.'
-    ./11_nvidia-cuda.sh 2>&1 | tee tmp/nvidia_step_2.log && touch tmp/nvidia_step_2
-    sudo reboot
-  fi
-  if [ ! -f tmp/nvidia_step_3 ]; then
-    echo 'installing nvidia driver from source.. after than, system will be reboot.'
-    ./12_nvidia-docker.sh 2>&1 | tee tmp/nvidia_step_3.log && touch tmp/nvidia_step_3
+    ./11_nvidia-docker.sh 2>&1 | tee tmp/nvidia_step_2.log && touch tmp/nvidia_step_2
     sudo reboot
   fi
 fi
@@ -130,4 +125,6 @@ if [ ! -f tmp/step_3 ]; then
   echo 'execute step 4..'
   ./30_post-install.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
   sudo sed -i "/${sh_file}/d" /etc/rc.local
+  sudo service lightdm stop
+  echo '!!!!!!!!!!!!!!!!! FILISHED !!!!!!!!!!!!!!!!!' && sleep 60 && sudo reboot
 fi
