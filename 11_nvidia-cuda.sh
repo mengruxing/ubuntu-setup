@@ -18,16 +18,16 @@ blacklist nouveau
 options nouveau modeset=0
 EOF
 sudo update-initramfs -u
-# sudo ./files/cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-9.2 --verbose ${nvidia_cuda_opts}
-sudo ./files/cuda_10.1.243_418.87.00_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-10.1 ${nvidia_cuda_opts}
-cd /opt
-sudo ln -sf cuda-10.1 cuda
-sudo ln -sf /opt/cuda/libnvvp/icon.xpm /usr/share/pixmaps/nvvp.xpm
-sudo ln -sf /opt/cuda/libnsight/icon.xpm /usr/share/pixmaps/nsight.xpm
-sudo ln -s /usr/share/doc/NVIDIA_GLX-1.0/nvidia-settings.png /usr/share/pixmaps/nvidia-settings.png
-cd -
 
-sudo tee /usr/share/applications/nvvp.desktop << EOF
+function install_cuda_92 {
+  sudo ./files/cuda_9.2.148_396.37_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-9.2 --verbose ${nvidia_cuda_opts}
+  cd /opt
+  sudo ln -sf cuda-9.2 cuda
+  sudo ln -s /opt/cuda/libnvvp/icon.xpm /usr/share/pixmaps/nvvp.xpm
+  sudo ln -s /opt/cuda/libnsight/icon.xpm /usr/share/pixmaps/nsight.xpm
+  cd -
+
+  sudo tee /usr/share/applications/nvvp.desktop << EOF
 [Desktop Entry]
 Type=Application
 Name=NVIDIA Visual Profiler
@@ -42,7 +42,7 @@ Terminal=No
 Categories=Development;Profiling;ParallelComputing
 EOF
 
-sudo tee /usr/share/applications/nsight.desktop << EOF
+  sudo tee /usr/share/applications/nsight.desktop << EOF
 [Desktop Entry]
 Type=Application
 Name=Nsight Eclipse Edition
@@ -57,7 +57,22 @@ Terminal=No
 Categories=Development;IDE;Debugger;ParallelComputing
 EOF
 
-sudo tee /usr/share/applications/nvidia-settings.desktop << EOF
+}
+
+function install_cuda_101 {
+  sudo ./files/cuda_10.1.243_418.87.00_linux.run --silent --driver --toolkit --toolkitpath=/opt/cuda-10.1 ${nvidia_cuda_opts}
+  cd /opt
+  sudo ln -sf cuda-10.1 cuda
+  cd -
+}
+
+${INSTALL_CUDA}
+
+if [[ "${nvidia_cuda_opts}" == *no*opengl* ]]; then
+  sudo rm /usr/share/applications/nvidia-settings.desktop
+else
+  sudo ln -s /usr/share/doc/NVIDIA_GLX-1.0/nvidia-settings.png /usr/share/pixmaps/nvidia-settings.png
+  sudo tee /usr/share/applications/nvidia-settings.desktop << EOF
 [Desktop Entry]
 Type=Application
 Encoding=UTF-8
@@ -67,5 +82,6 @@ Icon=nvidia-settings
 Exec=/usr/bin/nvidia-settings
 Categories=Settings;HardwareSettings;
 EOF
+fi
 
 echo 'operation completed! system needs to reboot..'
