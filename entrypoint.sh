@@ -91,6 +91,8 @@ fi
 
 sleep ${sleep_time}
 source tmp/config.sh
+sudo service lightdm stop
+
 if [ ! -f tmp/step_0 ]; then
   echo 'execute step 1..'
   ./00_apt-update.sh 2>&1 | tee tmp/step_0.log && touch tmp/step_0
@@ -125,6 +127,5 @@ if [ ! -f tmp/step_3 ]; then
   echo 'execute step 4..'
   ./30_post-install.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
   sudo sed -i "/${sh_file}/d" /etc/rc.local
-  sudo service lightdm stop
   echo '!!!!!!!!!!!!!!!!! FILISHED !!!!!!!!!!!!!!!!!' && sleep 60 && sudo reboot
 fi
