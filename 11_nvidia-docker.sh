@@ -53,8 +53,7 @@ eyeZUQTeQA6FBSJ54MJW55WhKdpA7qx2Cnj7mJLPtYghroSSi7mxjJcBD0+vmpNJ
 o/lrtnyYuGi6esxLaoBTQI3/tLAr4+XeEFEJRHUlmNSjL9xXIWztvL1l3SsA7tQF
 Mn0yJm0YbwWR3VirNB676xAOS+Q=
 =vJJC
------END PGP PUBLIC KEY BLOCK-----
-' | sudo apt-key add -
+-----END PGP PUBLIC KEY BLOCK-----' | sudo apt-key add -
 sudo tee /etc/apt/sources.list.d/nvidia-docker.list << EOF
 deb https://nvidia.github.io/libnvidia-container/ubuntu16.04/\$(ARCH) /
 deb https://nvidia.github.io/nvidia-container-runtime/ubuntu16.04/\$(ARCH) /
@@ -122,8 +121,7 @@ xx+dTZSx4ONAhwbS/LN3PoKtn8LPjY9NP9uDWI+TWYquS2U+KHDrBDlsgozDbs/O
 jCxcpDzNmXpWQHEtHU7649OXHP7UeNST1mCUCH5qdank0V1iejF6/CfTFU4MfcrG
 YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
 =0YYh
------END PGP PUBLIC KEY BLOCK-----
-' | sudo apt-key add -
+-----END PGP PUBLIC KEY BLOCK-----' | sudo apt-key add -
 echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker-stable.list
 sudo apt-get update
 sudo apt-get install -y docker-ce nvidia-container-toolkit
