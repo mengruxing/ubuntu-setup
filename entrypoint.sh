@@ -8,7 +8,7 @@ sleep_time=30
 
 if [ -z `grep "${entrypoint_file}" /etc/rc.local` ]; then
   sleep_time=3
-  sudo sed -i "/^\s*exit\s\+[0-9]\+\$/i\\${entrypoint_file}" /etc/rc.local
+  sudo sed -i "/^\s*exit\s\+[0-9]\+\$/i\\${entrypoint_file} &" /etc/rc.local
 fi
 
 if [ ! -e tmp ]; then
