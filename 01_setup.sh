@@ -211,3 +211,5 @@ run-command-21 =@as ["Disabled"]
 EOF
 
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+sudo ./files/Anaconda2-2018.12-Linux-x86_64.sh -b -f /opt/anaconda2
