@@ -107,7 +107,8 @@ EOF
 sudo add-apt-repository -y ppa:webupd8team/terminix
 sudo apt-add-repository -y ppa:mc3man/older
 sudo apt-get update
-sudo apt-get install -y tilix atom code gedit gedit-common sogoupinyin
+sudo apt-get install -y tilix gedit gedit-common sogoupinyin
+sudo apt-get install -y atom code
 
 cd /etc/profile.d && sudo ln -s vte-2.91.sh vte.sh
 cd -
