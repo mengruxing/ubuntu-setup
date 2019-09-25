@@ -213,6 +213,8 @@ EOF
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 sudo ./files/Anaconda2-2018.12-Linux-x86_64.sh -b -f /opt/anaconda2
+cd /opt && sudo ln -sf anaconda2 anaconda
+cd -
 sudo mkdir /etc/profile.d/opt
 sudo tee /etc/profile.d/opt.sh << EOF
 if [ -d /etc/profile.d/opt ]; then
