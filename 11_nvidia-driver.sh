@@ -9,15 +9,7 @@ else
   exit 1
 fi
 
-sudo apt-get install -y bbswitch-dkms lib32gcc-5-dev
-
 sudo service lightdm stop
-
-sudo tee /etc/modprobe.d/blacklist-nouveau.conf << EOF
-blacklist nouveau
-options nouveau modeset=0
-EOF
-sudo update-initramfs -u
 
 sudo ./files/NVIDIA-Linux-x86_64-418.87.00.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
 
