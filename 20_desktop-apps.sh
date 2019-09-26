@@ -99,15 +99,10 @@ sudo tee /etc/apt/sources.list.d/atom.list << EOF
 deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main
 EOF
 
-sudo cp ./files/sogou-archive-keyring.gpg /etc/apt/trusted.gpg.d/sogou-archive-keyring.gpg
-sudo tee /etc/apt/sources.list.d/sogoupinyin.list << EOF
-deb http://archive.ubuntukylin.com:10006/ubuntukylin xenial main
-EOF
-
 sudo add-apt-repository -y ppa:webupd8team/terminix
 sudo apt-add-repository -y ppa:mc3man/older
 sudo apt-get update
-sudo apt-get install -y tilix gedit gedit-common sogoupinyin
+sudo apt-get install -y tilix gedit gedit-common
 sudo apt-get install -y atom code
 
 cd /etc/profile.d && sudo ln -s vte-2.91.sh vte.sh
