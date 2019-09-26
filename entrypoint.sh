@@ -130,7 +130,12 @@ fi
 
 if [ ! -f tmp/step_3 ]; then
   echo 'execute step 4..'
-  ./30_post-install.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
+  ./21_anaconda.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
+fi
+
+if [ ! -f tmp/step_4 ]; then
+  echo 'execute step 5..'
+  ./30_post-install.sh 2>&1 | tee tmp/step_4.log && touch tmp/step_4
   sudo sed -i "/${sh_file}/d" /etc/rc.local
   echo '!!!!!!!!!!!!!!!!! FILISHED !!!!!!!!!!!!!!!!!' && sleep 60 && sudo reboot
 fi

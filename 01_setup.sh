@@ -20,11 +20,6 @@ sudo cp ./files/*_guc_ver*.bin /lib/firmware/i915/
 
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
-if [ -n "${RECORD_HOST_NAME}" ]; then crontab -u $(awk -F: '$3==1000 {print $1}' /etc/passwd) << EOF
-* * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(hostname -I | awk '{print \$1}')" ${RECORD_URL}
-EOF
-fi
-
 sudo tee /etc/sysctl.d/10-vm-swappiness.conf << EOF
 vm.swappiness = 10
 EOF
@@ -38,6 +33,27 @@ sudo chmod -x /etc/grub.d/30_* /etc/grub.d/4*
 sudo update-grub
 
 sudo chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/91-release-upgrade
+
+sudo mkdir /etc/profile.d/opt
+sudo tee /etc/profile.d/opt.sh << EOF
+if [ -d /etc/profile.d/opt ]; then
+  for i in /etc/profile.d/opt/*.sh; do
+    if [ -r \$i ]; then
+      . \$i
+    fi
+  done
+  unset i
+fi
+EOF
+
+if [ -n "${RECORD_HOST_NAME}" ]; then
+  crontab_user_name=$(awk -F: '$3==1000 {print $1}' /etc/passwd)
+  crontab_last=`crontab -l -u ${crontab_user_name}`
+  crontab -u ${crontab_user_name} << EOF
+${crontab_last}
+* * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(hostname -I | awk '{print \$1}')" ${RECORD_URL}
+EOF
+fi
 
 if [ -n "${frp_remote_port}" ] && [[ ! "${frp_remote_port}" == "no" ]]; then
   sudo cp ./files/frpc /usr/local/bin/frpc
@@ -211,21 +227,3 @@ run-command-21 =@as ["Disabled"]
 EOF
 
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
-
-sudo ./files/Anaconda2-2018.12-Linux-x86_64.sh -b -f /opt/anaconda2
-cd /opt && sudo ln -sf anaconda2 anaconda
-cd -
-sudo mkdir /etc/profile.d/opt
-sudo tee /etc/profile.d/opt.sh << EOF
-if [ -d /etc/profile.d/opt ]; then
-  for i in /etc/profile.d/opt/*.sh; do
-    if [ -r \$i ]; then
-      . \$i
-    fi
-  done
-  unset i
-fi
-EOF
-sudo tee /etc/profile.d/opt/anaconda.sh << EOF
-export PATH=\$PATH:/opt/anaconda/bin
-EOF
