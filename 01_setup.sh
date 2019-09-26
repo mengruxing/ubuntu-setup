@@ -46,11 +46,8 @@ if [ -d /etc/profile.d/opt ]; then
 fi
 EOF
 
-if [ -n "${RECORD_HOST_NAME}" ]; then
-  crontab_user_name=$(awk -F: '$3==1000 {print $1}' /etc/passwd)
-  crontab_last=`crontab -l -u ${crontab_user_name}`
-  crontab -u ${crontab_user_name} << EOF
-${crontab_last}
+if [ -n "${RECORD_HOST_NAME}" ]; then crontab << EOF
+$(crontab -l)
 * * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(hostname -I | awk '{print \$1}')" ${RECORD_URL}
 EOF
 fi
