@@ -10,7 +10,7 @@ else
 fi
 
 sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev bbswitch-dkms ffmpeg chromium-browser gparted
-sudo apt autoremove --purge -y deja-dup webbrowser-app account-plugin-flickr *firefox*
+sudo apt-get autoremove --purge -y deja-dup webbrowser-app account-plugin-flickr *firefox*
 sudo rm -f /usr/share/applications/shutdown.desktop /usr/share/applications/reboot.desktop /usr/share/applications/logout.desktop /etc/skel/examples.desktop
 sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
 print(' '.join(LanguageSelectorBase('/usr/share/language-selector/').getMissingLangPacks()))"`
