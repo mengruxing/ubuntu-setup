@@ -21,7 +21,7 @@ sudo cp ./files/*_guc_ver*.bin /lib/firmware/i915/
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
 if [ -n "${RECORD_HOST_NAME}" ]; then crontab -u $(awk -F: '$3==1000 {print $1}' /etc/passwd) << EOF
-* * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(/sbin/ifconfig \`/sbin/route -n | awk '\$3=="0.0.0.0" && \$4=="UG" {print \$8}' | head -n 1\` | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n 1)" ${RECORD_URL}
+* * * * * curl -d "hostName=${RECORD_HOST_NAME}&ipAddress=\$(hostname -I | awk '{print \$1}')" ${RECORD_URL}
 EOF
 fi
 
@@ -29,8 +29,8 @@ sudo tee /etc/sysctl.d/10-vm-swappiness.conf << EOF
 vm.swappiness = 10
 EOF
 
-sed -i 's/^\s*\(HISTFILESIZE=\).*$/\110000/g;' /etc/skel/.bashrc
-sed -i 's/^\(.*alias\s+ls.*--color=auto\)\(.*\)$/\1 --group-directories-first\2/g' /etc/skel/.bashrc
+sudo sed -i 's/^\s*\(HISTFILESIZE=\).*$/\110000/g;' /etc/skel/.bashrc
+sudo sed -i 's/^\(.*alias\s+ls.*--color=auto\)\(.*\)$/\1 --group-directories-first\2/g' /etc/skel/.bashrc
 
 sudo sed -i 's/\(GRUB_TIMEOUT=\)[0-9]\+/\10/' /etc/default/grub
 sudo sed -i 's/[1-9][0-9]*/0/g' /usr/share/plymouth/themes/default.grub
@@ -98,7 +98,7 @@ EOF
   sudo systemctl start frpc
 fi
 
-sudo tee /usr/share/glib-2.0/schemas/99_ubuntu1604.gschema.override << EOF
+sudo tee /usr/share/glib-2.0/schemas/99_ubuntu_customized.gschema.override << EOF
 [com.canonical.unity-greeter]
 draw-grid = false
 play-ready-sound = false
