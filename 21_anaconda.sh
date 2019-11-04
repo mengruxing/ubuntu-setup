@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-sudo ./files/Anaconda2-2018.12-Linux-x86_64.sh -b -p /opt/anaconda2
+sudo ./files/Anaconda2-2019.10-Linux-x86_64.sh -b -p /opt/anaconda2
 cd /opt && sudo ln -sf anaconda2 anaconda
 cd /opt/anaconda/share/icons && sudo ln -sf ../../lib/python2.7/site-packages/anaconda_navigator/app/icons/Icon1024.png anaconda-navigator.png
 cd `dirname $0`
