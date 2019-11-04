@@ -11,7 +11,7 @@ fi
 
 sudo service lightdm stop
 
-sudo ./files/NVIDIA-Linux-x86_64-418.87.00.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
+sudo ./files/NVIDIA-Linux-x86_64-430.50.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
 
 if [[ "${nvidia_cuda_opts}" == *no*opengl* ]]; then
   sudo rm /usr/share/applications/nvidia-settings.desktop
