@@ -32,7 +32,7 @@ sudo sed -i 's/[1-9][0-9]*/0/g' /usr/share/plymouth/themes/default.grub
 sudo chmod -x /etc/grub.d/30_* /etc/grub.d/4*
 sudo update-grub
 
-sudo chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/91-release-upgrade
+sudo chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/90-updates-available /etc/update-motd.d/91-release-upgrade
 
 sudo mkdir /etc/profile.d/opt
 sudo tee /etc/profile.d/opt.sh << EOF
