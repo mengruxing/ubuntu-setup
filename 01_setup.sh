@@ -24,6 +24,10 @@ sudo tee /etc/sysctl.d/10-vm-swappiness.conf << EOF
 vm.swappiness = 10
 EOF
 
+sudo tee /etc/sysctl.d/10-max-user-watches.conf << EOF
+fs.inotify.max_user_watches = 524288
+EOF
+
 sudo sed -i 's/^\s*\(HISTFILESIZE=\).*$/\110000/g;' /etc/skel/.bashrc
 sudo sed -i 's/^\(.*alias\s+ls.*--color=auto\)\(.*\)$/\1 --group-directories-first\2/g' /etc/skel/.bashrc
 
