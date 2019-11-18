@@ -9,6 +9,11 @@ fi
 sudo tee /etc/profile.d/opt/cuda.sh << EOF
 export PATH=\$PATH:/opt/cuda/bin
 EOF
+sudo tee /etc/ld.so.conf.d/cuda.conf << EOF
+/opt/cuda/lib64
+EOF
+sudo rm /etc/ld.so.conf.d/cuda-10-1.conf
+sudo ldconfig
 cd /opt && sudo ln -sf cuda-10.1 cuda
 sudo rm /usr/local/cuda
 sudo ln -sf /opt/cuda /usr/local/
