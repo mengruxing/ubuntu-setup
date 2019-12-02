@@ -117,6 +117,7 @@ fi
 
 sudo tee /usr/share/glib-2.0/schemas/99_ubuntu_customized.gschema.override << EOF
 [com.canonical.unity-greeter]
+background-color = '#303030'
 draw-grid = false
 play-ready-sound = false
 
