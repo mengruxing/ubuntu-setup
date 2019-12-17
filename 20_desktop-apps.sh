@@ -105,6 +105,9 @@ sudo apt-get update
 sudo apt-get install -y tilix gedit gedit-common
 sudo apt-get install -y atom code
 
+cd /usr/share/pixmaps && sudo ln -sf com.visualstudio.code.png code.png ; cd -
+sudo sed -i 's/^\(Icon=\).*\(code\).*/\1\2/g' /usr/share/applications/code.desktop
+
 cd /etc/profile.d && sudo ln -s vte-2.91.sh vte.sh
 cd -
 
