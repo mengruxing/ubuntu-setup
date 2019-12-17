@@ -118,7 +118,12 @@ if [[ "${opt_nvidia_driver}" == "yes" ]]; then
   fi
   if [ ! -f tmp/nvidia_step_2 ]; then
     echo 'installing nvidia driver from source.. after than, system will be reboot.'
-    ./12_nvidia-docker.sh 2>&1 | tee tmp/nvidia_step_2.log && touch tmp/nvidia_step_2
+    ./12_nvidia-cuda.sh 2>&1 | tee tmp/nvidia_step_2.log && touch tmp/nvidia_step_2
+    sudo reboot
+  fi
+  if [ ! -f tmp/nvidia_step_3 ]; then
+    echo 'installing nvidia driver from source.. after than, system will be reboot.'
+    ./13_nvidia-docker.sh 2>&1 | tee tmp/nvidia_step_3.log && touch tmp/nvidia_step_3
     sudo reboot
   fi
 fi
