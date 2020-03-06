@@ -133,7 +133,7 @@ if [ ! -f tmp/step_2 ]; then
   ./20_desktop-apps.sh 2>&1 | tee tmp/step_2.log && touch tmp/step_2
 fi
 
-if [ ! -f tmp/step_3 ]; then
+if [[ ! "${install_anaconda}" == "no" ]] && [ ! -f tmp/step_3 ]; then
   echo 'execute step 4..'
   ./21_anaconda.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
 fi
