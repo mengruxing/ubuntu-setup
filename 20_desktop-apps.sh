@@ -2,10 +2,14 @@
 
 cd `dirname $0`
 
+./request-file.sh sogoupinyin_2.2.0.0108_amd64.deb
+
 sudo add-apt-repository -y ppa:webupd8team/terminix
 sudo apt-add-repository -y ppa:mc3man/older
 sudo apt-get update
 sudo apt-get install -y tilix gedit gedit-common
+sudo dpkg -i ./local/sogoupinyin_2.2.0.0108_amd64.deb
+sudo apt-get install -f
 
 cd /etc/profile.d && sudo ln -s vte-2.91.sh vte.sh
 cd -
