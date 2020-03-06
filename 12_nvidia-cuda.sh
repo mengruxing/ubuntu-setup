@@ -2,14 +2,14 @@
 
 cd `dirname $0`
 
-if [ -f tmp/config.sh ]; then
-  source tmp/config.sh
+if [ -f ./local/config.sh ]; then
+  . ./local/config.sh
 else
-  echo "missing file: tmp/config.sh, please edit it and retry.."
+  echo "missing file: ./local/config.sh, please edit it and retry.."
   exit 1
 fi
 
-sudo ./files/cuda_10.1.243_418.87.00_linux.run --silent --toolkit --toolkitpath=/opt/cuda-10.1
+sudo ./local/cuda_10.1.243_418.87.00_linux.run --silent --toolkit --toolkitpath=/opt/cuda-10.1
 if [ $? -ne 0 ]; then
     echo "cuda installing failed.."
     exit 1

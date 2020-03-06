@@ -2,16 +2,16 @@
 
 cd `dirname $0`
 
-if [ -f tmp/config.sh ]; then
-  source tmp/config.sh
+if [ -f ./local/config.sh ]; then
+  . ./local/config.sh
 else
-  echo "missing file: tmp/config.sh, please edit it and retry.."
+  echo "missing file: ./local/config.sh, please edit it and retry.."
   exit 1
 fi
 
 sudo service lightdm stop
 
-sudo ./files/NVIDIA-Linux-x86_64-430.50.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
+sudo ./local/NVIDIA-Linux-x86_64-430.50.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
 
 if [[ "${nvidia_cuda_opts}" == *no*opengl* ]]; then
   sudo rm /usr/share/applications/nvidia-settings.desktop

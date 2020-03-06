@@ -16,7 +16,7 @@ if [ ! -e tmp ]; then
   mkdir tmp
 fi
 
-if [ ! -f tmp/config.sh ]; then
+if [ ! -f ./local/config.sh ]; then
   sleep_time=3
   if [ ! -e privacy.sh ]; then
     tee privacy.sh > /dev/null << EOF
@@ -69,7 +69,7 @@ EOF
       ;;
   esac
 
-  tee tmp/config.sh << EOF
+  tee ./local/config.sh << EOF
 #!/usr/bin/env bash
 
 frp_server_addr=${frp_server_addr}
@@ -85,12 +85,12 @@ opt_nvidia_driver=${opt_nvidia_driver}
 nvidia_cuda_opts='${nvidia_cuda_opts}'
 
 EOF
-  chmod +x tmp/config.sh
+  chmod +x ./local/config.sh
   echo 'system will be reboot 3 times, please wait patiently..'
 fi
 
 sleep ${sleep_time}
-source tmp/config.sh
+source ./local/config.sh
 sudo service lightdm stop
 
 if [ ! -f tmp/step_0 ]; then

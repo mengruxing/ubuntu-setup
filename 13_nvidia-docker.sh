@@ -26,6 +26,6 @@ EOF
 fi
 sudo systemctl restart docker
 
-sudo cp ./files/docker-compose /usr/local/bin/docker-compose
+sudo cp ./local/docker-compose /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version

@@ -13,7 +13,7 @@ fi
 
 date_start=$(date '+%s')
 
-cd ./files
+cd ./local
 
 # 读取 MD5 文件中的每一行
 while read md5 file

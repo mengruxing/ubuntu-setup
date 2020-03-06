@@ -2,10 +2,10 @@
 
 cd `dirname $0`
 
-if [ -f tmp/config.sh ]; then
-  source tmp/config.sh
+if [ -f ./local/config.sh ]; then
+  . ./local/config.sh
 else
-  echo "missing file: tmp/config.sh, please edit it and retry.."
+  echo "missing file: ./local/config.sh, please edit it and retry.."
   exit 1
 fi
 
@@ -16,7 +16,7 @@ sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector impo
 print(' '.join(LanguageSelectorBase('/usr/share/language-selector/').getMissingLangPacks()))"`
 
 # TODO: 从网上自动下载
-sudo cp ./files/*_guc_ver*.bin /lib/firmware/i915/
+sudo cp ./local/*_guc_ver*.bin /lib/firmware/i915/
 
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
@@ -57,7 +57,7 @@ EOF
 fi
 
 if [ -n "${frp_remote_port}" ] && [[ ! "${frp_remote_port}" == "no" ]]; then
-  sudo cp ./files/frpc /usr/local/bin/frpc
+  sudo cp ./local/frpc /usr/local/bin/frpc
   sudo chmod +x /usr/local/bin/frpc
   sudo mkdir /etc/frp /var/log/frp
   sudo chmod 775 /var/log/frp
