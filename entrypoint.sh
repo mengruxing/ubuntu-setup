@@ -128,7 +128,7 @@ if [[ "${opt_nvidia_driver}" == "yes" ]]; then
   fi
 fi
 
-if [[ ! "${desktop_apps}" == "no" ]] && [ ! -f tmp/step_2 ]; then
+if [ ! -f tmp/step_2 ]; then
   echo 'execute step 3..'
   ./20_desktop-apps.sh 2>&1 | tee tmp/step_2.log && touch tmp/step_2
 fi
@@ -138,9 +138,14 @@ if [ ! -f tmp/step_3 ]; then
   ./21_anaconda.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
 fi
 
-if [ ! -f tmp/step_4 ]; then
+if [[ ! "${install_ide}" == "no" ]] && [ ! -f tmp/step_4 ]; then
   echo 'execute step 5..'
-  ./30_post-install.sh 2>&1 | tee tmp/step_4.log && touch tmp/step_4
+  ./22_ide.sh 2>&1 | tee tmp/step_4.log && touch tmp/step_4
+fi
+
+if [ ! -f tmp/step_5 ]; then
+  echo 'execute step 6..'
+  ./30_post-install.sh 2>&1 | tee tmp/step_5.log && touch tmp/step_5
   sudo sed -i "/${sh_file}/d" /etc/rc.local
   echo '!!!!!!!!!!!!!!!!! FILISHED !!!!!!!!!!!!!!!!!' && sleep 60 && sudo reboot
 fi
