@@ -91,17 +91,15 @@ fi
 
 sleep ${sleep_time}
 source ./local/config.sh
-sudo service lightdm stop
+sudo service `sed 's/^.*\///g' /etc/X11/default-display-manager` stop
 
-if [ ! -f tmp/step_0 ]; then
-  echo 'execute step 1..'
-  ./00_apt-update.sh 2>&1 | tee tmp/step_0.log && touch tmp/step_0
+if [ ! -f tmp/step_00_apt_update ]; then
+  ./00_apt-update.sh 2>&1 | tee tmp/step_00_apt_update.log && touch tmp/step_00_apt_update
   sudo reboot
 fi
 
-if [ ! -f tmp/step_1 ]; then
-  echo 'execute step 2..'
-  ./01_setup.sh 2>&1 | tee tmp/step_1.log && touch tmp/step_1
+if [ ! -f tmp/step_01_setup ]; then
+  ./01_setup.sh 2>&1 | tee tmp/step_01_setup.log && touch tmp/step_01_setup
   sudo reboot
 fi
 
@@ -128,24 +126,24 @@ if [[ "${opt_nvidia_driver}" == "yes" ]]; then
   fi
 fi
 
-if [ ! -f tmp/step_2 ]; then
-  echo 'execute step 3..'
-  ./20_desktop-apps.sh 2>&1 | tee tmp/step_2.log && touch tmp/step_2
+if [ ! -f tmp/step_20_desktop_apps ]; then
+  ./20_desktop-apps.sh 2>&1 | tee tmp/step_20_desktop_apps.log && touch tmp/step_20_desktop_apps
 fi
 
-if [[ ! "${install_anaconda}" == "no" ]] && [ ! -f tmp/step_3 ]; then
-  echo 'execute step 4..'
-  ./21_anaconda.sh 2>&1 | tee tmp/step_3.log && touch tmp/step_3
+if [[ ! "${install_anaconda}" == "no" ]] && [ ! -f tmp/step_21_anaconda ]; then
+  ./21_anaconda.sh 2>&1 | tee tmp/step_21_anaconda.log && touch tmp/step_21_anaconda
 fi
 
-if [[ ! "${install_ide}" == "no" ]] && [ ! -f tmp/step_4 ]; then
-  echo 'execute step 5..'
-  ./22_ide.sh 2>&1 | tee tmp/step_4.log && touch tmp/step_4
+if [ ! -f tmp/step_21_miniconda ]; then
+  ./21_miniconda.sh 2>&1 | tee tmp/step_21_miniconda.log && touch tmp/step_21_miniconda
 fi
 
-if [ ! -f tmp/step_5 ]; then
-  echo 'execute step 6..'
-  ./30_post-install.sh 2>&1 | tee tmp/step_5.log && touch tmp/step_5
+if [[ ! "${install_ide}" == "no" ]] && [ ! -f tmp/step_22_ide ]; then
+  ./22_ide.sh 2>&1 | tee tmp/step_22_ide.log && touch tmp/step_22_ide
+fi
+
+if [ ! -f tmp/step_30_post_install ]; then
+  ./30_post-install.sh 2>&1 | tee tmp/step_30_post_install.log && touch tmp/step_30_post_install
   sudo sed -i "/${sh_file}/d" /etc/rc.local
   echo '!!!!!!!!!!!!!!!!! FILISHED !!!!!!!!!!!!!!!!!' && sleep 60 && sudo reboot
 fi

@@ -14,3 +14,6 @@ fi
 sudo tee /etc/profile.d/opt/miniconda.sh << EOF
 export PATH=\$PATH:/opt/miniconda/bin
 EOF
+if [ -e /etc/profile.d/opt/anaconda.sh ]; then
+  sudo rm /etc/profile.d/opt/anaconda.sh
+fi
