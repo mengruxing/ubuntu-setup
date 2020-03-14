@@ -4,7 +4,7 @@ cd `dirname $0`
 
 # 获取下载地址
 echo '正在测试下载服务器..'
-curl -sf --connect-timeout 10 https://dl.anview.tech
+curl -sf --connect-timeout 10 https://dl.anview.tech > /dev/null
 if [ $? -eq 0 ]; then
     DOWNLOAD_ADDR='https://dl.anview.tech/ubuntu-setup-files/'
 else
