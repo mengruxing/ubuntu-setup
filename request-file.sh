@@ -24,9 +24,11 @@ do {
         else
             rm -f ${file}
             wget -q --timeout=10 ${DOWNLOAD_ADDR}${file}
+            echo "downloaded: ${DOWNLOAD_ADDR}${file}"
         fi
     else
         wget -q --timeout=10 ${DOWNLOAD_ADDR}${file}
+        echo "downloaded: ${DOWNLOAD_ADDR}${file}"
     fi
 } &
 done; wait

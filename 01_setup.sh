@@ -178,7 +178,6 @@ run-key = '<Super>grave'
 run-key = '<Super>grave'
 
 [org.compiz.unityshell]
-num-launchers = 1
 launcher-minimize-window = true
 panel-opacity-maximized-toggle = true
 disable-show-desktop = true
