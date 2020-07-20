@@ -72,7 +72,6 @@ log_file = /var/log/frp/frpc.log
 
 [${frp_host_name}_ssh]
 type = tcp
-local_ip = 127.0.0.1
 local_port = 22
 remote_port = ${frp_remote_port}
 EOF
