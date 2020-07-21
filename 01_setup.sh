@@ -9,14 +9,18 @@ else
   exit 1
 fi
 
+
+./request-file.sh bxt_guc_ver8_7.bin
+./request-file.sh kbl_guc_ver9_14.bin
+./request-file.sh frpc
+
 sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev bbswitch-dkms ffmpeg chromium-browser gparted
 sudo apt-get autoremove --purge -y deja-dup webbrowser-app account-plugin-flickr *firefox*
 sudo rm -f /usr/share/applications/shutdown.desktop /usr/share/applications/reboot.desktop /usr/share/applications/logout.desktop /etc/skel/examples.desktop
 sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
 print(' '.join(LanguageSelectorBase('/usr/share/language-selector/').getMissingLangPacks()))"`
 
-# TODO: 从网上自动下载
-sudo cp ./local/*_guc_ver*.bin /lib/firmware/i915/
+sudo cp ./local/bxt_guc_ver8_7.bin ./local/kbl_guc_ver9_14.bin /lib/firmware/i915/
 
 sudo sed -i 's/^\(Prompt\)=.*$/\1=never/g' /etc/update-manager/release-upgrades
 
