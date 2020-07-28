@@ -9,6 +9,9 @@ else
   exit 1
 fi
 
+./request-file.sh cuda_10.1.243_418.87.00_linux.run
+chmod +x ./local/cuda_10.1.243_418.87.00_linux.run
+
 sudo ./local/cuda_10.1.243_418.87.00_linux.run --silent --toolkit --toolkitpath=/opt/cuda-10.1
 if [ $? -ne 0 ]; then
     echo "cuda installing failed.."
