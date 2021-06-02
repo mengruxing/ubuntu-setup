@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-sudo apt-get install -y bbswitch-dkms lib32gcc-5-dev
+sudo apt-get install -y dkms lib32gcc-5-dev
 
 sudo service lightdm stop
 

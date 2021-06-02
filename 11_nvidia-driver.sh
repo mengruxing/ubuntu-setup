@@ -9,12 +9,12 @@ else
   exit 1
 fi
 
-./request-file.sh NVIDIA-Linux-x86_64-430.64.run
-chmod +x ./local/NVIDIA-Linux-x86_64-430.64.run
+./request-file.sh NVIDIA-Linux-x86_64-455.32.run
+chmod +x ./local/NVIDIA-Linux-x86_64-455.32.run
 
 sudo service lightdm stop
 
-sudo ./local/NVIDIA-Linux-x86_64-430.64.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
+sudo ./local/NVIDIA-Linux-x86_64-455.32.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
 
 if [[ "${nvidia_cuda_opts}" == *no*opengl* ]]; then
   sudo rm /usr/share/applications/nvidia-settings.desktop

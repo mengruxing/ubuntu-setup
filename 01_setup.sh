@@ -14,7 +14,7 @@ fi
 ./request-file.sh kbl_guc_ver9_14.bin
 ./request-file.sh frpc
 
-sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev bbswitch-dkms ffmpeg chromium-browser gparted
+sudo apt-get install -y curl vim htop openssh-server build-essential cmake lib32gcc-5-dev dkms ffmpeg chromium-browser gparted
 sudo apt-get autoremove --purge -y deja-dup webbrowser-app account-plugin-flickr *firefox*
 sudo rm -f /usr/share/applications/shutdown.desktop /usr/share/applications/reboot.desktop /usr/share/applications/logout.desktop /etc/skel/examples.desktop
 sudo apt-get install -y `python3 -c "from LanguageSelector.LanguageSelector import LanguageSelectorBase
@@ -42,16 +42,9 @@ sudo update-grub
 
 sudo chmod -x /etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news /etc/update-motd.d/90-updates-available /etc/update-motd.d/91-release-upgrade
 
-sudo mkdir /etc/profile.d/opt
-sudo tee /etc/profile.d/opt.sh << EOF
-if [ -d /etc/profile.d/opt ]; then
-  for i in /etc/profile.d/opt/*.sh; do
-    if [ -r \$i ]; then
-      . \$i
-    fi
-  done
-  unset i
-fi
+sudo tee /etc/lightdm/lightdm.conf.d/guest.conf << EOF
+[SeatDefaults]
+allow-guest=false
 EOF
 
 if [ -n "${RECORD_HOST_NAME}" ]; then crontab << EOF
@@ -75,9 +68,9 @@ token = ${frp_token}
 log_file = /var/log/frp/frpc.log
 
 [${frp_host_name}_ssh]
-type = tcp
+type = stcp
 local_port = 22
-remote_port = ${frp_remote_port}
+sk = ${frp_sk}
 EOF
 
   sudo tee /lib/systemd/system/frpc.service << EOF
@@ -132,6 +125,9 @@ favorites = ['application://org.gnome.Nautilus.desktop', 'application://chromium
 
 [com.canonical.indicator.keyboard]
 visible = false
+
+[com.ubuntu.update-notifier]
+no-show-notifications = true
 
 [org.gnome.Terminal.Legacy.Profile]
 scrollbar-policy = 'never'

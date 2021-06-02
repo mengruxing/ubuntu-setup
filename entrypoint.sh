@@ -3,6 +3,7 @@
 cd `dirname $0`
 sh_file=${0##*/}
 entrypoint_file="$(pwd)/${sh_file}"
+PROJECT_PATH="`pwd`"
 
 sleep_time=30
 
@@ -47,7 +48,7 @@ EOF
   default_record_hostname=`echo ${HOSTNAME//-/_} | sed -e "s/\b\(.\)/\u\1/g"`
 
   if [ -n "${frp_server_addr}" ] && [ -n "${frp_server_port}" ] && [ -n "${frp_token}" ]; then
-    read -p 'please input frp remote port [7001-7009] (empty denotes not to register): ' opt_frp_port
+    read -p 'please input frp_sk: ' frp_sk
   fi
 
   if [[ -n "${RECORD_URL}" ]]; then
@@ -76,7 +77,7 @@ frp_server_addr=${frp_server_addr}
 frp_server_port=${frp_server_port}
 frp_token=${frp_token}
 frp_host_name=${frp_host_name}
-frp_remote_port=${opt_frp_port}
+frp_sk=${frp_sk}
 
 RECORD_URL=${RECORD_URL}
 RECORD_HOST_NAME=${opt_record_hostname}

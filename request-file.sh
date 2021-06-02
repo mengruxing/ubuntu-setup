@@ -3,12 +3,11 @@
 cd `dirname $0`
 cd ./local
 
-curl -sf --connect-timeout 10 https://dl.anview.tech > /dev/null
-if [ $? -eq 0 ]; then
-    DOWNLOAD_ADDR='https://dl.anview.tech/ubuntu-setup-files/'
-else
-    DOWNLOAD_ADDR="http://`curl -s ip.anview.ai/api/host/anview/ip`:888/files/ubuntu-setup-files/"
-fi
+for server_addr in dl.guet.anview.tech dl.anview.tech dl.anview.ai; do
+    curl -sf --connect-timeout 10 -L http://${server_addr} > /dev/null && break
+done
+
+DOWNLOAD_ADDR="http://${server_addr}/ubuntu-setup-files/"
 
 for file in "${@}"
 do {
