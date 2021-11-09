@@ -12,7 +12,7 @@ fi
 ./request-file.sh NVIDIA-Linux-x86_64-455.32.run
 chmod +x ./local/NVIDIA-Linux-x86_64-455.32.run
 
-sudo service lightdm stop
+sudo init 3
 
 sudo ./local/NVIDIA-Linux-x86_64-455.32.run --ui=none --no-questions --accept-license --disable-nouveau --dkms ${nvidia_cuda_opts}
 

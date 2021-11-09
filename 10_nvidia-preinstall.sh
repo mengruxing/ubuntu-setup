@@ -4,7 +4,7 @@ cd `dirname $0`
 
 sudo apt-get install -y dkms lib32gcc-5-dev
 
-sudo service lightdm stop
+sudo init 3
 
 sudo tee /etc/modprobe.d/blacklist-nouveau.conf << EOF
 blacklist nouveau
